@@ -113,7 +113,12 @@ export function StandardCalculator({
       const trimmed = prev.expression.endsWith(' ')
         ? prev.expression.slice(0, -3)
         : prev.expression.slice(0, -1);
-      return { ...prev, expression: trimmed, error: null };
+      return {
+        ...prev,
+        expression: trimmed,
+        displayResult: trimmed.trim() === '' ? '0' : prev.displayResult,
+        error: null,
+      };
     });
   }, [onChange]);
 
@@ -248,16 +253,22 @@ export function StandardCalculator({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [keyboardEnabled, appendToken, handleEvaluate, handleBackspace, handleClear]);
 
+  const hasExpression = session.expression.trim().length > 0;
+
   const previewText =
     liveEval?.ok && !session.justEvaluated
       ? `= ${formatNumber(liveEval.value, { maxDecimals: 10 })}`
       : null;
 
-  const shownValue = session.justEvaluated
-    ? session.displayResult
-    : liveEval?.ok
-      ? formatNumber(liveEval.value, { maxDecimals: 10 })
-      : session.displayResult;
+  const shownValue = !hasExpression
+    ? '0'
+    : session.justEvaluated
+      ? session.displayResult
+      : liveEval?.ok
+        ? formatNumber(liveEval.value, { maxDecimals: 10 })
+        : session.error
+          ? 'Error'
+          : '…';
 
   const keyBase =
     'btn-tactile font-mono-tabular flex h-12 items-center justify-center rounded-md border text-base font-medium select-none';
@@ -322,13 +333,15 @@ export function StandardCalculator({
         <input
           type="text"
           value={session.expression}
-          onChange={(e) =>
+          onChange={(e) => {
+            const nextExpr = e.target.value;
             onChange({
-              expression: e.target.value,
+              expression: nextExpr,
+              displayResult: nextExpr.trim() === '' ? '0' : session.displayResult,
               error: null,
               justEvaluated: false,
-            })
-          }
+            });
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();

@@ -118,8 +118,8 @@ export function getDefaultSessions(): AllCalculatorSessions {
   const today = getTodayIso();
   return {
     standard: {
-      expression: '245 + 18 × 3',
-      displayResult: '299',
+      expression: '',
+      displayResult: '0',
       error: null,
       memory: 0,
       hasMemory: false,
