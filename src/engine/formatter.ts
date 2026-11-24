@@ -4,6 +4,7 @@ export type CurrencyCode =
   | 'GBP'
   | 'JPY'
   | 'INR'
+  | 'IDR'
   | 'AUD'
   | 'CAD'
   | 'CHF';
@@ -21,6 +22,7 @@ export const GLOBAL_CURRENCIES: CurrencySymbolOption[] = [
   { code: 'GBP', symbol: '£', label: 'GBP (£)', decimals: 2 },
   { code: 'JPY', symbol: '¥', label: 'JPY (¥)', decimals: 0 },
   { code: 'INR', symbol: '₹', label: 'INR (₹)', decimals: 2 },
+  { code: 'IDR', symbol: 'Rp ', label: 'IDR (Rp)', decimals: 0 },
   { code: 'AUD', symbol: 'A$', label: 'AUD (A$)', decimals: 2 },
   { code: 'CAD', symbol: 'C$', label: 'CAD (C$)', decimals: 2 },
   { code: 'CHF', symbol: 'CHF ', label: 'CHF', decimals: 2 },

@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { evaluateExpression } from '../expressionParser.ts';
-import { formatCurrency, formatNumber, sanitizeFloat } from '../formatter.ts';
+import { formatCurrency, formatNumber, getCurrencyOption, sanitizeFloat } from '../formatter.ts';
 
 describe('Expression Parser & Formatter', () => {
   it('cleans IEEE-754 floating point artifacts', () => {
@@ -104,5 +104,8 @@ describe('Expression Parser & Formatter', () => {
     assert.equal(formatNumber(1e13, { locale: 'en-US' }), '1e+13');
     assert.equal(formatNumber(0.00000012, { locale: 'en-US' }), '1.2e-7');
     assert.equal(formatCurrency(-42.5, '$', 2, 'en-US'), '-$42.50');
+    const idr = getCurrencyOption('IDR');
+    assert.equal(idr.code, 'IDR');
+    assert.equal(formatCurrency(150000, idr.symbol, idr.decimals, 'en-US'), 'Rp 150,000');
   });
 });
