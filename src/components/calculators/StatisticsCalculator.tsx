@@ -1,6 +1,7 @@
 import { formatNumber } from '../../engine/formatter.ts';
 import { calculateStatistics } from '../../engine/statistics.ts';
 import type { StatisticsSession } from '../../state/useSessionCache.ts';
+import { BoxPlotChart } from '../shared/Charts.tsx';
 import {
   InlineAlert,
   PrimaryResultCard,
@@ -163,6 +164,15 @@ export function StatisticsCalculator({
               </div>
             </div>
           </div>
+
+          <BoxPlotChart
+            min={result.min}
+            q1={result.q1}
+            median={result.median}
+            q3={result.q3}
+            max={result.max}
+            mean={result.mean}
+          />
 
           {/* Inline Distribution Bar Chart */}
           <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4 dark:border-[#334155] dark:bg-[#0F172A]">

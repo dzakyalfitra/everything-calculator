@@ -12,6 +12,7 @@ import {
   type HealthUnitSystem,
 } from '../../engine/health.ts';
 import type { HealthSession } from '../../state/useSessionCache.ts';
+import { BmiSpectrumGauge } from '../shared/Charts.tsx';
 import {
   FieldInput,
   InlineAlert,
@@ -268,23 +269,11 @@ export function HealthCalculator({
                   </span>
                 </div>
 
-                {/* WHO spectrum bar */}
-                <div>
-                  <div className="grid grid-cols-4 gap-1 text-center text-[10px] font-medium text-[#475569] dark:text-slate-400">
-                    <div className="rounded bg-[#2563EB]/20 py-1 text-[#1D4ED8] dark:text-blue-300">
-                      &lt; 18.5
-                    </div>
-                    <div className="rounded bg-[#16A34A]/20 py-1 text-[#15803D] dark:text-emerald-300">
-                      18.5 – 24.9
-                    </div>
-                    <div className="rounded bg-[#D97706]/20 py-1 text-[#B45309] dark:text-amber-300">
-                      25 – 29.9
-                    </div>
-                    <div className="rounded bg-[#DC2626]/20 py-1 text-[#DC2626] dark:text-red-300">
-                      ≥ 30
-                    </div>
-                  </div>
-                </div>
+                {/* WHO spectrum gauge */}
+                <BmiSpectrumGauge
+                  bmi={bmiRes.bmi}
+                  category={bmiRes.category}
+                />
               </div>
             </PrimaryResultCard>
           )}

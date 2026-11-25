@@ -12,7 +12,15 @@ import {
   calculateSimpleInterest,
   type CompoundingFrequency,
 } from '../../engine/finance.ts';
+import {
+  buildCompoundSeries,
+  buildLoanSeries,
+} from '../../engine/chartGeometry.ts';
 import type { FinanceSession } from '../../state/useSessionCache.ts';
+import {
+  CompoundGrowthChart,
+  LoanAmortizationChart,
+} from '../shared/Charts.tsx';
 import {
   FieldInput,
   InlineAlert,
@@ -220,6 +228,12 @@ export function FinanceCalculator({
                 </div>
               </PrimaryResultCard>
 
+              <LoanAmortizationChart
+                series={buildLoanSeries(loanP ?? 0, loanRes.yearlySchedule)}
+                currencySymbol={currency.symbol}
+                currencyDecimals={currency.decimals}
+              />
+
               <div>
                 <button
                   type="button"
@@ -328,6 +342,7 @@ export function FinanceCalculator({
           ) : !compRes.ok ? (
             <InlineAlert tone="error">{compRes.error}</InlineAlert>
           ) : (
+            <>
             <PrimaryResultCard
               label={`Projected Balance (${compY} years)`}
               value={formatCurrency(compRes.futureValue, currency.symbol, currency.decimals)}
@@ -390,6 +405,13 @@ export function FinanceCalculator({
                 </div>
               </div>
             </PrimaryResultCard>
+
+            <CompoundGrowthChart
+              series={buildCompoundSeries(compP ?? 0, compRes.yearlyGrowth)}
+              currencySymbol={currency.symbol}
+              currencyDecimals={currency.decimals}
+            />
+          </>
           )}
         </div>
       )}
